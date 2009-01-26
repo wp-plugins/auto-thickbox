@@ -1,7 +1,7 @@
 === Auto Thickbox ===
 Contributors: Denis-de-Bernardy, Semiologic
 Donate link: http://buy.semiologic.com/drink
-Tags: lightbox, thickbox, shadowbox, gallery
+Tags: lightbox, thickbox, shadowbox, gallery, semiologic
 Requires at least: 2.5
 Tested up to: 2.7
 Stable tag: trunk
