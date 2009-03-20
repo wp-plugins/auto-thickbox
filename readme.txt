@@ -1,9 +1,9 @@
 === Auto Thickbox ===
-Contributors: Denis-de-Bernardy, Semiologic
+Contributors: Denis-de-Bernardy
 Donate link: http://buy.semiologic.com/drink
 Tags: lightbox, thickbox, shadowbox, gallery, semiologic
-Requires at least: 2.5
-Tested up to: 2.7
+Requires at least: 2.7
+Tested up to: 2.7.2
 Stable tag: trunk
 
 Automatically enables thickbox on thumbnail images (i.e. opens the images in a fancy pop-up).
