@@ -1,11 +1,13 @@
 <?php
 /*
 Plugin Name: Auto Thickbox
-Plugin URI: http://www.semiologic.com/software/publishing/auto-thickbox/
+Plugin URI: http://www.semiologic.com/software/auto-thickbox/
 Description: Automatically enables thickbox on thumbnail images (i.e. opens the images in a fancy pop-up).
 Author: Denis de Bernardy
-Version: 1.2
+Version: 2.0
 Author URI: http://www.getsemiologic.com
+Text Domain: auto-thickbox
+Domain Path: /lang
 */
 
 /*
@@ -24,140 +26,130 @@ http://www.opensource.org/licenses/gpl-2.0.php
  * @package Auto Thickbox
  **/
 
-if ( !is_admin() && strpos($_SERVER['HTTP_USER_AGENT'], 'W3C_Validator') === false ) {
-	add_action('wp_print_scripts', array('auto_thickbox', 'add_scripts'));
-	add_action('wp_print_styles', array('auto_thickbox', 'add_css'));
-	
-	add_action('wp_head', array('auto_thickbox', 'add_thickbox_images'), 20);
-	
-	add_filter('the_content', array('auto_thickbox', 'add_thickbox'), 100);
-	add_filter('the_excerpt', array('auto_thickbox', 'add_thickbox'), 100);
-}
-
 class auto_thickbox {
 	/**
-	 * add_thickbox()
+	 * filter()
 	 *
-	 * @param string $content
-	 * @return string $content
+	 * @param array $anchor
+	 * @return anchor $anchor
 	 **/
 
-	function add_thickbox($content) {
-		$content = preg_replace_callback("/
-			<\s*a\s					# an achnor...
-				(.*\s)?
-				href\s*=\s*?(.+)	# (catch href)
-				(\s.*)?
-				>
-			\s*
-			(.*)
-			\s*
-			<\s*\/\s*a\s*>
-			/isUx", array('auto_thickbox', 'add_thickbox_callback'), $content);
-		
-		return $content;
-	} # add_thickbox()
+	function filter($anchor) {
+		if ( preg_match("/\.(?:jpe?g|gif|png)\b/i", $anchor['attr']['href']) )
+			return auto_thickbox::image($anchor);
+		elseif ( !empty($anchor['attr']['class']) && in_array('thickbox', $anchor['attr']['class']) )
+			return auto_thickbox::iframe($anchor);
+		else
+			return $anchor;
+	} # filter()
 	
 	
 	/**
-	 * add_thickbox_callback()
+	 * image()
 	 *
-	 * @param array $match Regexp match
-	 * @return string $link
+	 * @param array $anchor
+	 * @return anchor $anchor
 	 **/
-	
-	function add_thickbox_callback($match) {
-		# trim surrounding quotes
-		$href = trim(trim($match[2]), '\'"');
+
+	function image($anchor) {
+		if ( !preg_match("/^\s*<\s*img\s.+?>\s*$/is", $anchor['body']) )
+			return $anchor;
 		
-		# return if link isn't pointing to an image
-		if ( !preg_match("/\.(jpe?g|gif|png)$/i", $href) )
-			return $match[0];
-		
-		$img = $match[4];
-		
-		# return if link isn't wrapping an image (lets us work around backtrack limit)
-		if ( !preg_match("|^<\s*img\s[^>]+>$|i", $img) )
-			return $match[0];
-		
-		# link attribute
-		$attr = ' ' . $match[1] . $match[3] . ' ';
-		
-		# add thickbox class
-		if ( !preg_match("/(\sclass\s*=\s*(.+?))(?:$|\s[a-z_]+\s*=)/i", $attr, $class) ) {
-			$attr .= ' class="thickbox noicon"';
+		if ( !$anchor['attr']['class'] ) {
+			$anchor['attr']['class'][] = 'thickbox';
+			$anchor['attr']['class'][] = 'no_icon';
 		} else {
-			# trim surrounding quotes
-			$old_class = trim(trim($class[2]), '\'"');
-			
-			if ( strpos($old_class, 'thickbox') !== false ) {
-				$new_class = $old_class . ' thickbox noicon';
-
-				# replace class
-				$attr = str_replace($class[0], 'class="' . $new_class . '"', $attr);
+			if ( !in_array('thickbox', $anchor['attr']['class']) )
+				$anchor['attr']['class'][] = 'thickbox';
+			if ( !in_array('no_icon', $anchor['attr']['class']) && !in_array('noicon', $anchor['attr']['class']) )
+				$anchor['attr']['class'][] = 'no_icon';
+		}
+		
+		if ( in_the_loop() && !$anchor['attr']['rel'] )
+			$anchor['attr']['rel'][] = 'gallery-' . get_the_ID();
+		
+		if ( empty($anchor['attr']['title']) ) {
+			if ( preg_match("/\b(?:alt|title)\s*=\s*('|\")(.*?)\\1/i", $anchor['body'], $title) ) {
+				$anchor['attr']['title'] = end($title);
 			}
 		}
 		
-		# add gallery rel if no rel is present
-		if ( in_the_loop()
-			&& !preg_match("/\srel\s*=\s*.+?(?:$|\s[a-z_]+\s*=)/i", $attr, $rel)
-			) {
-			$attr .= ' rel="gallery-' . get_the_ID() . '"';
-		}
-		
-		# add title
-		if ( !preg_match("/title\s*=/i", $attr) ) {
-			if ( preg_match("/(?:alt|title)\s*=\s*('|\")(.*?)\\1/i", $img, $title) ) {
-				$title = end($title);
-				$attr .= ' title="' . $title . '"';
-			}
-		}
-		
-		return '<a href="' . $href . '" ' . $attr . '>' . $img . '</a>';
-	} # add_thickbox_callback()
+		return $anchor;
+	} # image()
 	
 	
 	/**
-	 * add_scripts()
+	 * iframe()
+	 *
+	 * @return void
+	 **/
+	
+	function iframe($anchor) {
+		if ( strpos($anchor['attr']['href'], 'TB_iframe=true') !== false )
+			return $anchor;
+		
+		# strip anchor ref
+		$href = explode('#', $anchor['attr']['href']);
+		$anchor['attr']['href'] = array_shift($href);
+		
+		$anchor['attr']['href'] .= ( ( strpos($anchor['attr']['href'], '?') === false ) ? '?' : '&' )
+			. 'TB_iframe=true&width=720&height=540';
+		
+		return $anchor;
+	} # iframe()
+	
+	
+	/**
+	 * scripts()
 	 *
 	 * @return void
 	 **/
 
-	function add_scripts() {
+	function scripts() {
 		wp_enqueue_script('thickbox');
-	} # add_scripts()
+	} # scripts()
 	
 	
 	/**
-	 * add_css()
+	 * styles()
 	 *
 	 * @return void
 	 **/
 
-	function add_css() {
+	function styles() {
 		wp_enqueue_style('thickbox');
-	} # add_css()
+	} # styles()
 	
 	
 	/**
-	 * add_thickbox_images()
+	 * thickbox_images()
 	 *
 	 * @return void
 	 **/
 
-	function add_thickbox_images() {
-		$site_url = site_url();
+	function thickbox_images() {
+		$includes_url = includes_url();
 		
-		$js = <<<EOF
+		echo <<<EOS
 
 <script type="text/javascript">
-var tb_pathToImage = "$site_url/wp-includes/js/thickbox/loadingAnimation.gif";
-var tb_closeImage = "$site_url/wp-includes/js/thickbox/tb-close.png";
+var tb_pathToImage = "{$includes_url}js/thickbox/loadingAnimation.gif";
+var tb_closeImage = "{$includes_url}js/thickbox/tb-close.png";
 </script>
 
-EOF;
-		
-		echo $js;
-	} # add_thickbox_images()
+EOS;
+	} # thickbox_images()
 } # auto_thickbox
+
+if ( !is_admin() && strpos($_SERVER['HTTP_USER_AGENT'], 'W3C_Validator') === false ) {
+	if ( !class_exists('anchor_utils') )
+		include dirname(__FILE__) . '/anchor-utils/anchor-utils.php';
+	
+	add_action('wp_print_scripts', array('auto_thickbox', 'scripts'));
+	add_action('wp_print_styles', array('auto_thickbox', 'styles'));
+	
+	add_action('wp_footer', array('auto_thickbox', 'thickbox_images'), 20);
+	
+	add_filter('filter_anchor', array('auto_thickbox', 'filter'));
+}
 ?>

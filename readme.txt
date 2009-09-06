@@ -1,9 +1,9 @@
 === Auto Thickbox ===
 Contributors: Denis-de-Bernardy
-Donate link: http://buy.semiologic.com/drink
+Donate link: http://www.semiologic.com/partners/ http://buy.semiologic.com/drink
 Tags: lightbox, thickbox, shadowbox, gallery, semiologic
 Requires at least: 2.7
-Tested up to: 2.7.2
+Tested up to: 2.8.4
 Stable tag: trunk
 
 Automatically enables thickbox on thumbnail images (i.e. opens the images in a fancy pop-up).
@@ -18,7 +18,7 @@ In the event you'd like to override this for an individual image, you can disabl
 
 = Thickbox Galleries =
 
-By default, the auto thickbox plugin will bind all images within a post into a single thickbox gallery. That is, thickbox will add next image and previous image links so you can navigate from an image to the next.
+By default, the auto thickbox plugin will bind all images within a post into a single thickbox gallery. That is, next image and previous image links will appear so you can navigate from an image to the next.
 
 The behavior is particularly interesting when you create galleries using WordPress' image uploader. Have the images link to the image file rather than the attachment's post, and you're done.
 
@@ -30,6 +30,12 @@ On occasion, you'll want to split a subset of images into a separate gallery. Au
 
 Note that thickbox works on any link, not merely image links. To enable thickbox on an arbitrary link, set that link's class to thickbox.
 
+= Help Me! =
+
+The [Semiologic forum](http://forum.semiologic.com) is the best place to report issues. Please note, however, that while community members and I do our best to answer all queries, we're assisting you on a voluntary basis.
+
+If you require more dedicated assistance, consider using [Semiologic Pro](http://www.getsemiologic.com).
+
 
 == Installation ==
 
@@ -37,10 +43,10 @@ Note that thickbox works on any link, not merely image links. To enable thickbox
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
 
-== Frequently Asked Questions ==
+== Change Log ==
 
-= Help Me! =
+= 2.0 =
 
-The [Semiologic forum](http://forum.semiologic.com) is the best place to report issues. Please note, however, that while community members and I do our best to answer all queries, we're assisting you on a voluntary basis.
-
-If you require more dedicated assistance, consider using [Semiologic Pro](http://www.getsemiologic.com).
+- Full iFrame support
+- Code enhancements and optimizations
+- Localization support
