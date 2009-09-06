@@ -1,6 +1,6 @@
 === Auto Thickbox ===
 Contributors: Denis-de-Bernardy
-Donate link: http://www.semiologic.com/partners/ http://buy.semiologic.com/drink
+Donate link: http://www.semiologic.com/partners/
 Tags: lightbox, thickbox, shadowbox, gallery, semiologic
 Requires at least: 2.7
 Tested up to: 2.8.4
