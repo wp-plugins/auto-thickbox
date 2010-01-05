@@ -8,12 +8,14 @@ msgstr ""
 "Project-Id-Version: 2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-03 11:59+0100\n"
-"PO-Revision-Date: 2009-12-03 12:02+0100\n"
+"PO-Revision-Date: 2009-12-07 08:30+0100\n"
 "Last-Translator: Various <user>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: Henrique Schiavo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Portuguese\n"
+"X-Poedit-Country: BRAZIL\n"
 
 #: auto-thickbox-info.php:2
 msgid "Auto Thickbox"
@@ -25,21 +27,21 @@ msgstr ""
 
 #: auto-thickbox-info.php:4
 msgid "Next &gt;"
-msgstr "Next &gt;"
+msgstr "Próximo &gt;"
 
 #: auto-thickbox-info.php:5
 msgid "&lt; Prev"
-msgstr "&lt; Prev"
+msgstr "&lt; Anterior"
 
 #: auto-thickbox-info.php:6
 msgid "Image"
-msgstr "Image"
+msgstr "Imagem"
 
 #: auto-thickbox-info.php:7
 msgid "of"
-msgstr "of"
+msgstr "de"
 
 #: auto-thickbox-info.php:8
 msgid "Close"
-msgstr "Close"
+msgstr "Fechar"
 
