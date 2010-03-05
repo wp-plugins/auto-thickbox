@@ -3,7 +3,7 @@ Contributors: Denis-de-Bernardy
 Donate link: http://www.semiologic.com/partners/
 Tags: lightbox, thickbox, shadowbox, gallery, semiologic
 Requires at least: 2.7
-Tested up to: 2.9.1
+Tested up to: 2.9.2
 Stable tag: trunk
 
 Automatically enables thickbox on thumbnail images (i.e. opens the images in a fancy pop-up).
@@ -53,6 +53,10 @@ If you require more dedicated assistance, consider using [Semiologic Pro](http:/
 
 
 == Change Log ==
+
+= 2.0.2 =
+
+- Actually load the text domain for i18n support...
 
 = 2.0.1 =
 
