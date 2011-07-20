@@ -2,8 +2,8 @@
 Contributors: Denis-de-Bernardy
 Donate link: http://www.semiologic.com/partners/
 Tags: lightbox, thickbox, shadowbox, gallery, semiologic
-Requires at least: 2.7
-Tested up to: 3.1
+Requires at least: 2.8
+Tested up to: 3.2.1
 Stable tag: trunk
 
 Automatically enables thickbox on thumbnail images (i.e. opens the images in a fancy pop-up).
@@ -53,6 +53,11 @@ If you require more dedicated assistance, consider using [Semiologic Pro](http:/
 
 
 == Change Log ==
+
+= 2.0.3 =
+
+- Fix conflict with wp cron.
+- Use esc_url() / Require WP 2.8.
 
 = 2.0.2 =
 
