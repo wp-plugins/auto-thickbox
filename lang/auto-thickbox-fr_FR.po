@@ -1,0 +1,46 @@
+# Auto Thickbox pot file.
+# Copyright (C) 2009 Mesoconcepts <http://www.mesoconcepts.com>
+# This file is distributed under the same license as the Auto Thickbox package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-12-03 11:59+0100\n"
+"PO-Revision-Date: 2011-02-24 15:05+1100\n"
+"Last-Translator: Laurent Dinclaux <laurent@gecka-apps.com>\n"
+"Language-Team: hakre/Semiologic <http://www.semiologic.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: French\n"
+
+#: auto-thickbox-info.php:2
+msgid "Auto Thickbox"
+msgstr "Auto Thickbox"
+
+#: auto-thickbox-info.php:3
+msgid "Automatically enables thickbox on thumbnail images (i.e. opens the images in a fancy pop-up)."
+msgstr "Activer thickbox automatiquement pour toutes les miniatures (à savoir, ouvre les images dans une fenêtre modale javascript)"
+
+#: auto-thickbox-info.php:4
+msgid "Next &gt;"
+msgstr "Suivant &gt;"
+
+#: auto-thickbox-info.php:5
+msgid "&lt; Prev"
+msgstr "&lt; Précédent"
+
+#: auto-thickbox-info.php:6
+msgid "Image"
+msgstr "Image"
+
+#: auto-thickbox-info.php:7
+msgid "of"
+msgstr "de"
+
+#: auto-thickbox-info.php:8
+msgid "Close"
+msgstr "Fermer"
+
