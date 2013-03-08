@@ -3,8 +3,8 @@
 Plugin Name: Auto Thickbox
 Plugin URI: http://www.semiologic.com/software/auto-thickbox/
 Description: Automatically enables thickbox on thumbnail images (i.e. opens the images in a fancy pop-up).
-Author: Denis de Bernardy
-Version: 2.1
+Author: Denis de Bernardy, Mike Koepke
+Version: 2.1.1
 Author URI: http://www.getsemiologic.com
 Text Domain: auto-thickbox
 Domain Path: /lang
@@ -89,11 +89,9 @@ class auto_thickbox {
      */
 	
 	function iframe($anchor) {
-        if ( strpos($anchor['attr']['href'], 'TB_iframe=true') !== false || strpos($anchor['attr']['href'], '#TB_inline') !== false )
-      			return $anchor;
-      		if ( strpos($anchor['attr']['href'], '://') === false || strpos($anchor['attr']['href'], $_SERVER['HTTP_HOST']) !== false )
-      			return $anchor; // not append 'TB_iframe=true' to URL in the same domain (i.e. display as not iframe but AJAX content)
-		
+		if ( strpos($anchor['attr']['href'], 'TB_iframe=true') !== false )
+			return $anchor;
+
 		# strip anchor ref
 		$href = explode('#', $anchor['attr']['href']);
 		$anchor['attr']['href'] = array_shift($href);

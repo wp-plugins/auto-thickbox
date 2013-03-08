@@ -56,12 +56,14 @@ If you require more dedicated assistance, consider using [Semiologic Pro](http:/
 
 == Change Log ==
 
+= 2.1.1 =
+
+- Removed Auto Thickbox Plus fixes applied in previous version.  Seemed to cause issue on some site upgrades
+
 = 2.1 =
 
 - WP 3.5 compat
 - Backport bug fixes from Auto Thickbox Plus
-    - Supports AJAX content. Internal files are displayed on the page without iframe.
-    - Supports inline content (#TB_inline) on the page
 
 = 2.0.3 =
 
