@@ -3,7 +3,7 @@ Contributors: Denis-de-Bernardy, Mike_Koepke
 Donate link: http://www.semiologic.com/partners/
 Tags: lightbox, thickbox, shadowbox, gallery, semiologic
 Requires at least: 3.1
-Tested up to: 3.5.1
+Tested up to: 3.6
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -55,6 +55,13 @@ If you require more dedicated assistance, consider using [Semiologic Pro](http:/
 
 
 == Change Log ==
+
+= 2.2 =
+
+- WP 3.6 compat
+- PHP 5.4 compat
+- Fixed issue with parsing of links with non-standard (class, href, rel, target) attributes included in the <img> tag.  This caused Twitter Widgets to break.
+- Fixed issue with images containing onLoad (or other javascript event) attributes with embedded javascript code possibly corrupting js code
 
 = 2.1.1 =
 

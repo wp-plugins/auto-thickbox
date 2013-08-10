@@ -4,7 +4,7 @@ Plugin Name: Auto Thickbox
 Plugin URI: http://www.semiologic.com/software/auto-thickbox/
 Description: Automatically enables thickbox on thumbnail images (i.e. opens the images in a fancy pop-up).
 Author: Denis de Bernardy, Mike Koepke
-Version: 2.1.1
+Version: 2.2
 Author URI: http://www.getsemiologic.com
 Text Domain: auto-thickbox
 Domain Path: /lang
@@ -30,7 +30,25 @@ load_plugin_textdomain('auto-thickbox', false, dirname(plugin_basename(__FILE__)
  **/
 
 class auto_thickbox {
-	/**
+    /**
+     * auto_thickbox()
+     */
+    function auto_thickbox() {
+        if ( !is_admin() && isset($_SERVER['HTTP_USER_AGENT']) &&
+            	strpos($_SERVER['HTTP_USER_AGENT'], 'W3C_Validator') === false) {
+        	if ( !class_exists('anchor_utils') )
+        		include dirname(__FILE__) . '/anchor-utils/anchor-utils.php';
+
+        	add_action('wp_print_scripts', array($this, 'scripts'));
+        	add_action('wp_print_styles', array($this, 'styles'));
+
+        	add_action('wp_footer', array($this, 'thickbox_images'), 20);
+
+        	add_filter('filter_anchor', array($this, 'filter'));
+        }
+    } #auto_thickbox
+
+    /**
 	 * filter()
 	 *
 	 * @param array $anchor
@@ -153,16 +171,6 @@ EOS;
 	} # thickbox_images()
 } # auto_thickbox
 
-if ( !is_admin() && isset($_SERVER['HTTP_USER_AGENT']) &&
-    	strpos($_SERVER['HTTP_USER_AGENT'], 'W3C_Validator') === false) {
-	if ( !class_exists('anchor_utils') )
-		include dirname(__FILE__) . '/anchor-utils/anchor-utils.php';
-		
-	add_action('wp_print_scripts', array('auto_thickbox', 'scripts'));
-	add_action('wp_print_styles', array('auto_thickbox', 'styles'));
-	
-	add_action('wp_footer', array('auto_thickbox', 'thickbox_images'), 20);
-	
-	add_filter('filter_anchor', array('auto_thickbox', 'filter'));
-}
+
+$auto_thickbox = new auto_thickbox();
 ?>
