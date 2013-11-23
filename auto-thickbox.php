@@ -4,8 +4,8 @@ Plugin Name: Auto Thickbox
 Plugin URI: http://www.semiologic.com/software/auto-thickbox/
 Description: Automatically enables thickbox on thumbnail images (i.e. opens the images in a fancy pop-up).
 Author: Denis de Bernardy, Mike Koepke
-Version: 2.2
-Author URI: http://www.getsemiologic.com
+Version: 2.3
+Author URI: http://www.semiologic.com
 Text Domain: auto-thickbox
 Domain Path: /lang
 */
@@ -14,7 +14,7 @@ Domain Path: /lang
 Terms of use
 ------------
 
-This software is copyright Mesoconcepts (http://www.mesoconcepts.com), and is distributed under the terms of the GPL license, v.2.
+This software is copyright Denis de Bernardy & Mike Koepke, and is distributed under the terms of the GPL license, v2.
 
 http://www.opensource.org/licenses/gpl-2.0.php
 **/

@@ -3,7 +3,7 @@ Contributors: Denis-de-Bernardy, Mike_Koepke
 Donate link: http://www.semiologic.com/partners/
 Tags: lightbox, thickbox, shadowbox, gallery, semiologic
 Requires at least: 3.1
-Tested up to: 3.6
+Tested up to: 3.7
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -45,7 +45,7 @@ In the event you want to disable thickbox on some links to images, assign it a n
 
 The [Semiologic forum](http://forum.semiologic.com) is the best place to report issues. Please note, however, that while community members and I do our best to answer all queries, we're assisting you on a voluntary basis.
 
-If you require more dedicated assistance, consider using [Semiologic Pro](http://www.getsemiologic.com).
+If you require more dedicated assistance, consider using [Semiologic Pro](http://www.semiologic.com).
 
 
 == Installation ==
@@ -55,6 +55,11 @@ If you require more dedicated assistance, consider using [Semiologic Pro](http:/
 
 
 == Change Log ==
+
+= 2.3 =
+
+- WP 3.7 compat
+- New link attribute parsing code to handle various image link configurations.
 
 = 2.2 =
 
