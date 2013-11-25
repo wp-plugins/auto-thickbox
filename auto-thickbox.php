@@ -4,19 +4,19 @@ Plugin Name: Auto Thickbox
 Plugin URI: http://www.semiologic.com/software/auto-thickbox/
 Description: Automatically enables thickbox on thumbnail images (i.e. opens the images in a fancy pop-up).
 Author: Denis de Bernardy, Mike Koepke
-Version: 2.3
+Version: 2.4
 Author URI: http://www.semiologic.com
 Text Domain: auto-thickbox
 Domain Path: /lang
+License: Dual licensed under the MIT and GPL licenses
 */
 
 /*
 Terms of use
 ------------
 
-This software is copyright Denis de Bernardy & Mike Koepke, and is distributed under the terms of the GPL license, v2.
+This software is copyright Denis de Bernardy & Mike Koepke, and is distributed under the terms of the MIT and GPLv2 licenses.
 
-http://www.opensource.org/licenses/gpl-2.0.php
 **/
 
 
@@ -30,14 +30,20 @@ load_plugin_textdomain('auto-thickbox', false, dirname(plugin_basename(__FILE__)
  **/
 
 class auto_thickbox {
+
+	protected $anchor_utils;
+
     /**
-     * auto_thickbox()
+     * constructor()
      */
-    function auto_thickbox() {
+	public function __construct() {
         if ( !is_admin() && isset($_SERVER['HTTP_USER_AGENT']) &&
             	strpos($_SERVER['HTTP_USER_AGENT'], 'W3C_Validator') === false) {
+
         	if ( !class_exists('anchor_utils') )
         		include dirname(__FILE__) . '/anchor-utils/anchor-utils.php';
+
+	        $this->anchor_utils = new anchor_utils( true );
 
         	add_action('wp_print_scripts', array($this, 'scripts'));
         	add_action('wp_print_styles', array($this, 'styles'));
@@ -171,6 +177,4 @@ EOS;
 	} # thickbox_images()
 } # auto_thickbox
 
-
 $auto_thickbox = new auto_thickbox();
-?>

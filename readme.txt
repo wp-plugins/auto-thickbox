@@ -56,6 +56,11 @@ If you require more dedicated assistance, consider using [Semiologic Pro](http:/
 
 == Change Log ==
 
+= 2.4 =
+
+- Further updates to the link attribute parsing code
+- Fixed bug where img was not processed if it was preceded by an empty text anchor link.
+
 = 2.3 =
 
 - WP 3.7 compat
