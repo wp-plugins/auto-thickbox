@@ -4,11 +4,11 @@ Plugin Name: Auto Thickbox
 Plugin URI: http://www.semiologic.com/software/auto-thickbox/
 Description: Automatically enables thickbox on thumbnail images (i.e. opens the images in a fancy pop-up).
 Author: Denis de Bernardy, Mike Koepke
-Version: 2.4
-Author URI: http://www.semiologic.com
+Version: 2.4.1
+Author URI: http://www.getsemiologic.com
 Text Domain: auto-thickbox
 Domain Path: /lang
-License: Dual licensed under the MIT and GPL licenses
+License: Dual licensed under the MIT and GPLv2 licenses
 */
 
 /*
@@ -45,8 +45,8 @@ class auto_thickbox {
 
 	        $this->anchor_utils = new anchor_utils( true );
 
-        	add_action('wp_print_scripts', array($this, 'scripts'));
-        	add_action('wp_print_styles', array($this, 'styles'));
+        	add_action('wp_enqueue_scripts', array($this, 'scripts'));
+        	add_action('wp_enqueue_scripts', array($this, 'styles'));
 
         	add_action('wp_footer', array($this, 'thickbox_images'), 20);
 
@@ -145,7 +145,7 @@ class auto_thickbox {
 		));
 	} # scripts()
 	
-	
+
 	/**
 	 * styles()
 	 *
@@ -155,8 +155,8 @@ class auto_thickbox {
 	function styles() {
 		wp_enqueue_style('thickbox');
 	} # styles()
-	
-	
+
+
 	/**
 	 * thickbox_images()
 	 *
