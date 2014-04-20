@@ -36,6 +36,16 @@ Note that thickbox works on any link, not merely image links. To enable thickbox
 
 In the event you want to disable thickbox on some links to images, assign it a nothickbox class.
 
+= Keyboard support =
+
+Thickbox supports the following keys:
+- Next Image: Greater Than (>) or Left Arrow
+- Previous Image: Less Than (<) or Right Arrow
+- First Image: Home
+- Last Image: End
+- Close Popup: Esc or Enter/Return
+
+
 = Hat Translators =
 
 - German: hakre
@@ -55,6 +65,18 @@ If you require more dedicated assistance, consider using [Semiologic Pro](http:/
 
 
 == Change Log ==
+
+= 3.0 =
+
+- Added new keyboard support: Left arrow, right arrow, home, end
+- Next and Prev don't always advance correctly with Thickbox.js 3.1.   Plugin now has own custom thickbox.js.
+- WP 3.9 eliminated some of the default thickbox styling.   Plugin now has own custom thickbox styling
+- Changed ordering of Prev, Next and Image of
+- Photo title is now centered.
+- Now support .bmp image extensions
+- Custom thickbox.js uses a minified version for better performance.
+- WP 3.9 compat
+- Code refactoring
 
 = 2.4.1 =
 
