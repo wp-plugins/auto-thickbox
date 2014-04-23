@@ -66,6 +66,10 @@ If you require more dedicated assistance, consider using [Semiologic Pro](http:/
 
 == Change Log ==
 
+= 3.0.2 =
+
+- Fix broken translations
+
 = 3.0 =
 
 - Added new keyboard support: Left arrow, right arrow, home, end
