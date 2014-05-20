@@ -66,6 +66,11 @@ If you require more dedicated assistance, consider using [Semiologic Pro](http:/
 
 == Change Log ==
 
+= 3.1 =
+
+- Fix handling of the #TB_Inline attribute used for popping up forms in iframes.  (props to the Auto Thickbox Plus plugin)
+- Use more full proof WP version check to alter plugin behavior instead of relying on $wp_version constant.
+
 = 3.0.2 =
 
 - Fix broken translations
