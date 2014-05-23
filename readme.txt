@@ -66,6 +66,10 @@ If you require more dedicated assistance, consider using [Semiologic Pro](http:/
 
 == Change Log ==
 
+= 3.1.1 =
+
+- Handle nested parenthesis in javascript event attributes on links and images
+
 = 3.1 =
 
 - Fix handling of the #TB_Inline attribute used for popping up forms in iframes.  (props to the Auto Thickbox Plus plugin)
