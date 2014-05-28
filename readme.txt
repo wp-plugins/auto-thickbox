@@ -66,6 +66,11 @@ If you require more dedicated assistance, consider using [Semiologic Pro](http:/
 
 == Change Log ==
 
+= 3.2 =
+
+- Fix Thickbox pop failing to show with some caching plugins that concat javascript files.
+- Use own custom version of the anchor_utils class
+
 = 3.1.1 =
 
 - Handle nested parenthesis in javascript event attributes on links and images

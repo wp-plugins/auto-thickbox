@@ -4,7 +4,7 @@ Plugin Name: Auto Thickbox
 Plugin URI: http://www.semiologic.com/software/auto-thickbox/
 Description: Automatically enables thickbox on thumbnail images (i.e. opens the images in a fancy pop-up).
 Author: Denis de Bernardy, Mike Koepke
-Version: 3.1.1
+Version: 3.2
 Author URI: http://www.getsemiologic.com
 Text Domain: auto-thickbox
 Domain Path: /lang
@@ -108,15 +108,17 @@ class auto_thickbox {
 		if ( !is_admin() && isset($_SERVER['HTTP_USER_AGENT']) &&
       	strpos($_SERVER['HTTP_USER_AGENT'], 'W3C_Validator') === false) {
 
-			if ( !class_exists('anchor_utils') )
-			    include $this->plugin_path . '/anchor-utils/anchor-utils.php';
+			if ( !class_exists('auto_thickbox_anchor_utils') )
+			    include $this->plugin_path . '/auto-thickbox-anchor-utils.php';
 
-			$this->anchor_utils = new anchor_utils( true );
+			$this->anchor_utils = new auto_thickbox_anchor_utils( $this, true );
 
 			add_action('wp_enqueue_scripts', array($this, 'scripts'));
 			add_action('wp_enqueue_scripts', array($this, 'styles'));
 
 			add_filter('filter_anchor', array($this, 'filter'));
+
+			add_filter('wp_head', array($this, 'localize_scripts'));
 		}
 	}
 
@@ -205,8 +207,17 @@ class auto_thickbox {
 		$thickbox_js = ( WP_DEBUG ? 'auto-thickbox.min.js' : 'auto-thickbox.js' );
 		wp_register_script('thickbox', plugins_url( '/js/' . $thickbox_js, __FILE__), array('jquery'), '20140420', true);
 		wp_enqueue_script('thickbox');
+	} # scripts()
 
-		wp_localize_script('thickbox', 'thickboxL10n', array(
+
+	/**
+	 * localize_scripts()
+	 *
+	 * @return void
+	 **/
+
+	function localize_scripts() {
+/*		wp_localize_script($script_handle, 'thickboxL10n', array(
 			'next' => __('Next &gt;', 'auto-thickbox'),
 			'prev' => __('&lt; Prev', 'auto-thickbox'),
 			'image' => __('Image', 'auto-thickbox'),
@@ -215,8 +226,29 @@ class auto_thickbox {
 			'l10n_print_after' => 'try{convertEntities(thickboxL10n);}catch(e){};',
 			'loadingAnimation' => plugins_url( 'images/loadingAnimation.gif',__FILE__ )
 		));
-	} # scripts()
-	
+*/
+
+		$next =  __('Next &gt;', 'auto-thickbox');
+		$prev =   __('&lt; Prev', 'auto-thickbox');
+		$image =  __('Image', 'auto-thickbox');
+		$of =  __('of', 'auto-thickbox');
+		$close =  __('Close', 'auto-thickbox');
+		$l10n_print_after =   'try{convertEntities(thickboxL10n);}catch(e){};';
+		$loadingAnimation =   plugins_url( 'images/loadingAnimation.gif',__FILE__ );
+		$loadingAnimation = str_replace( '/', '\/', $loadingAnimation );
+
+echo <<<EOS
+
+<script type='text/javascript'>
+/* <![CDATA[ */
+var thickboxL10n = {"next":"$next","prev":"$prev","image":"$image","of":"$of","close":"$close","loadingAnimation":"$loadingAnimation"};
+$l10n_print_after;
+/* ]]> */
+</script>
+
+EOS;
+
+	} # localize_scripts()
 
 	/**
 	 * styles()
