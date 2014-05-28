@@ -66,6 +66,10 @@ If you require more dedicated assistance, consider using [Semiologic Pro](http:/
 
 == Change Log ==
 
+= 3.2.1 =
+
+- Additional tweak to global callback processing
+
 = 3.2 =
 
 - Fix Thickbox pop failing to show with some caching plugins that concat javascript files.

@@ -45,10 +45,8 @@ class auto_thickbox_anchor_utils {
 	function ob_start() {
 		echo '<!-- external-links  ' . 'ob_filter' . ' -->' . "\n";
 
-		if ( has_filter('ob_filter_anchor') ) {
-			ob_start(array($this, 'ob_filter'));
-			add_action('wp_footer', array($this, 'ob_flush'), 100000);
-		}
+		ob_start(array($this, 'ob_filter'));
+		add_action('wp_footer', array($this, 'ob_flush'), 100000);
 	} # ob_start()
 
 	/**
@@ -127,8 +125,6 @@ class auto_thickbox_anchor_utils {
 
 	function filter($text) {
 		$text = '<!-- auto_thickbox_anchor_utils  ' . current_filter() . ' -->' . "\n"  . $text;
-		if ( !has_filter('filter_anchor') )
-			return $text;
 
 		global $escape_anchor_filter;
 		$escape_anchor_filter = array();
