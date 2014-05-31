@@ -26,11 +26,11 @@ class auto_thickbox_anchor_utils {
 
 	    $this->auto_thickbox = $auto_thickbox;
 
-        add_filter('the_content', array($this, 'filter'), 100000);
-        add_filter('the_excerpt', array($this, 'filter'), 100000);
-        add_filter('comment_text', array($this, 'filter'), 100000);
+        add_filter('the_content', array($this, 'filter'), 1000000);
+        add_filter('the_excerpt', array($this, 'filter'), 1000000);
+        add_filter('comment_text', array($this, 'filter'), 1000000);
 	    if ( $inc_text_widgets )
-	        add_filter('widget_text', array($this, 'filter'), 100000);
+	        add_filter('widget_text', array($this, 'filter'), 1000000);
 
  //       add_action('wp_head', array($this, 'ob_start'), 10000);
     } #auto_thickbox_anchor_utils
@@ -43,10 +43,8 @@ class auto_thickbox_anchor_utils {
 	 **/
 
 	function ob_start() {
-		echo '<!-- external-links  ' . 'ob_filter' . ' -->' . "\n";
-
 		ob_start(array($this, 'ob_filter'));
-		add_action('wp_footer', array($this, 'ob_flush'), 100000);
+		add_action('wp_footer', array($this, 'ob_flush'), 1000000);
 	} # ob_start()
 
 	/**
@@ -59,8 +57,6 @@ class auto_thickbox_anchor_utils {
 	function ob_filter($text) {
 		global $escape_anchor_filter;
 		$escape_anchor_filter = array();
-
-		$text = '<!-- auto_thickbox_anchor_utils  ' . 'ob_filter' . ' -->' . "\n" . $text;
 
 		$text = $this->escape($text);
 
@@ -124,8 +120,6 @@ class auto_thickbox_anchor_utils {
 	 **/
 
 	function filter($text) {
-		$text = '<!-- auto_thickbox_anchor_utils  ' . current_filter() . ' -->' . "\n"  . $text;
-
 		global $escape_anchor_filter;
 		$escape_anchor_filter = array();
 

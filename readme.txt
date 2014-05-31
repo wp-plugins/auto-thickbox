@@ -66,6 +66,11 @@ If you require more dedicated assistance, consider using [Semiologic Pro](http:/
 
 == Change Log ==
 
+= 3.2.2 =
+
+- Remove html comments used for some troubleshooting
+- changed hook priorities
+
 = 3.2.1 =
 
 - Additional tweak to global callback processing
