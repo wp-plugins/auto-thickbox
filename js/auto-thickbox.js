@@ -5,6 +5,11 @@
  * Licensed under the MIT License: http://www.opensource.org/licenses/mit-license.php
 */
 
+if ( typeof thickboxL10n === "undefined" ) {
+	var thickboxL10n = {"next":"Next &gt;","prev":"&lt; Prev","image":"Image","of":"of","close":"Close","loadingAnimation":""};
+	thickboxL10n.loadingAnimation = window.location.protocol + "//" + window.location.host + "/" + "/wp-content\/plugins\/auto-thickbox\/images\/loadingAnimation.gif";
+}
+
 if ( typeof tb_pathToImage != 'string' ) {
 	var tb_pathToImage = thickboxL10n.loadingAnimation;
 }
