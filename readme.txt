@@ -66,6 +66,11 @@ If you require more dedicated assistance, consider using [Semiologic Pro](http:/
 
 == Change Log ==
 
+= 3.4 =
+
+- Fix some performance issues in the link parsing.   New algorithm used.
+- Incorporate WP core fix #29346 - Disable background page scrolling when modals are open.
+
 = 3.3 =
 
 - Set default thickbox javascript parameters as fallback to avoid error
