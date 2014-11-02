@@ -66,6 +66,10 @@ If you require more dedicated assistance, consider using [Semiologic Pro](http:/
 
 == Change Log ==
 
+= 3.4.1 =
+
+- Additional tweak to benefit performance
+
 = 3.4 =
 
 - Fix some performance issues in the link parsing.   New algorithm used.
