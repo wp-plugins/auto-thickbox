@@ -66,6 +66,10 @@ If you require more dedicated assistance, consider using [Semiologic Pro](http:/
 
 == Change Log ==
 
+= 3.4.2 =
+
+- Tweak to handle image paired with link classes better.
+
 = 3.4.1 =
 
 - Additional tweak to benefit performance
