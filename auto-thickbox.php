@@ -4,8 +4,8 @@ Plugin Name: Auto Thickbox
 Plugin URI: http://www.semiologic.com/software/auto-thickbox/
 Description: Automatically enables thickbox on thumbnail images (i.e. opens the images in a fancy pop-up).
 Author: Denis de Bernardy, Mike Koepke
-Version: 3.4.2
-Author URI: http://www.getsemiologic.com
+Version: 3.5
+Author URI: https://www.semiologic.com
 Text Domain: auto-thickbox
 Domain Path: /lang
 License: Dual licensed under the MIT and GPLv2 licenses
@@ -245,21 +245,17 @@ class auto_thickbox {
 	 **/
 
 	function process_link($match) {
-		# skip empty anchors
-		if ( !trim($match[2]) )
-			return $match[0];
-
 		# parse anchor
 		$anchor = $this->parse_anchor($match);
 
 		if ( !$anchor )
-			return $match[0];
+			return false;
 
 		# filter anchor
 		$anchor = $this->filter_anchor( $anchor );
 
 		if ( $anchor )
-			$anchor = $this->build_anchor($anchor);
+			$anchor = $this->build_anchor($match[0], $anchor);
 
 		return $anchor;
 	} # process_link()
@@ -274,7 +270,7 @@ class auto_thickbox {
 
 	function parse_anchor($match) {
 		$anchor = array();
-		$anchor['attr'] = $this->parse_attrs( $match[1] );
+		$anchor['attr'] = $this->parseAttributes( $match[1] );
 
 		if ( !is_array($anchor['attr']) || empty($anchor['attr']['href']) # parser error or no link
 			|| trim($anchor['attr']['href']) != esc_url($anchor['attr']['href'], null, 'db') ) # likely a script
@@ -297,104 +293,6 @@ class auto_thickbox {
 	} # parse_anchor()
 
 	/**
-	 * Parse an attributes string into an array. If the string starts with a tag,
-	 * then the attributes on the first tag are parsed. This parses via a manual
-	 * loop and is designed to be safer than using DOMDocument.
-	 *
-	 * @param    string|*   $attrs
-	 * @return   array
-	 *
-	 * @example  parse_attrs( 'src="example.jpg" alt="example"' )
-	 * @example  parse_attrs( '<img src="example.jpg" alt="example">' )
-	 * @example  parse_attrs( '<a href="example"></a>' )
-	 * @example  parse_attrs( '<a href="example">' )
-	 */
-	function parse_attrs($attrs) {
-
-	    if ( !is_scalar($attrs) )
-	        return (array) $attrs;
-
-	    $attrs = str_split( trim($attrs) );
-
-	    if ( '<' === $attrs[0] ) # looks like a tag so strip the tagname
-	        while ( $attrs && ! ctype_space($attrs[0]) && $attrs[0] !== '>' )
-	            array_shift($attrs);
-
-	    $arr = array(); # output
-	    $name = '';     # for the current attr being parsed
-	    $value = '';    # for the current attr being parsed
-	    $mode = 0;      # whether current char is part of the name (-), the value (+), or neither (0)
-	    $stop = false;  # delimiter for the current $value being parsed
-	    $space = ' ';   # a single space
-		$paren = 0;     # in parenthesis for js attrs
-
-	    foreach ( $attrs as $j => $curr ) {
-
-	        if ( $mode < 0 ) {# name
-	            if ( '=' === $curr ) {
-	                $mode = 1;
-	                $stop = false;
-	            } elseif ( '>' === $curr ) {
-	                '' === $name or $arr[ $name ] = $value;
-	                break;
-	            } elseif ( !ctype_space($curr) ) {
-	                if ( ctype_space( $attrs[ $j - 1 ] ) ) { # previous char
-	                    '' === $name or $arr[ $name ] = '';   # previous name
-	                    $name = $curr;                        # initiate new
-	                } else {
-	                    $name .= $curr;
-	                }
-	            }
-	        } elseif ( $mode > 0 ) {# value
-		        if ( $paren ) {
-			        $value .= $curr;
-                    if ( $curr === "(")
-                        $paren += 1;
-                    elseif ( $curr === ")")
-                        $paren -= 1;
-		        }
-		        else {
-		            if ( $stop === false ) {
-		                if ( !ctype_space($curr) ) {
-		                    if ( '"' === $curr || "'" === $curr ) {
-		                        $value = '';
-		                        $stop = $curr;
-		                    } else {
-		                        $value = $curr;
-		                        $stop = $space;
-		                    }
-		                }
-		            } elseif ( $stop === $space ? ctype_space($curr) : $curr === $stop ) {
-		                $arr[ $name ] = $value;
-		                $mode = 0;
-		                $name = $value = '';
-		            } else {
-		                $value .= $curr;
-			            if ( $curr === "(")
-	                        $paren += 1;
-	                    elseif ( $curr === ")")
-	                        $paren -= 1;
-		            }
-		        }
-	        } else {# neither
-
-	            if ( '>' === $curr )
-	                break;
-	            if ( !ctype_space( $curr ) ) {
-	                # initiate
-	                $name = $curr;
-	                $mode = -1;
-	            }
-	        }
-	    }
-
-	    # incl the final pair if it was quoteless
-	    '' === $name or $arr[ $name ] = $value;
-
-	    return $arr;
-	}
-
-	/**
 	 * build_anchor()
 	 *
 	 * @param $link
@@ -402,25 +300,27 @@ class auto_thickbox {
 	 * @return string $anchor
 	 */
 
-	function build_anchor($anchor) {
-		$anchor['attr']['href'] = esc_url($anchor['attr']['href']);
+	function build_anchor($link, $anchor) {
+		$attrs = array( 'class', 'rel', 'target');
 
-		$str = '<a';
-		foreach ( $anchor['attr'] as $k => $v ) {
-			if ( is_array($v) ) {
-				$v = array_unique($v);
-				if ( $v )
-					$str .= ' ' . $k . '="' . implode(' ', $v) . '"';
-			} else {
-               if ($k)
-				    $str .= ' ' . $k . '="' . $v . '"';
-               else
-                    $str .= ' ' . $v;
+		foreach ( $attrs as $attr ) {
+			if ( isset($anchor['attr'][$attr]) ) {
+				$new_attr_value = null;
+				$values = $anchor['attr'][$attr];
+				if ( is_array($values) ) {
+					$values = array_unique($values);
+					if ( $values )
+						$new_attr_value = implode(' ',  $values );
+				} else {
+					$new_attr_value = $values;
+				}
+
+				if ( $new_attr_value )
+					$link = $this->update_attribute($link, $attr, $new_attr_value);
 			}
 		}
-		$str .= '>' . $anchor['body'] . '</a>';
 
-		return $str;
+		return $link;
 	} # build_anchor()
 
 
@@ -437,11 +337,17 @@ class auto_thickbox {
 		$attr_value     = false;
 		$quote          = false; // quotes to wrap attribute values
 
-		if (preg_match('/\s' . $attr_name . '="([^"]*)"/iu', $html, $matches)
-			|| preg_match('/\s' . $attr_name . "='([^']*)'/iu", $html, $matches)
+		preg_match('/(<a.*>)/iU', $html, $match);
+
+		$link_str = $match[1];
+		if ($link_str == "")
+			return $html;
+
+		$re = '/' . preg_quote($attr_name) . '=([\'"])?((?(1).+?|[^\s>]+))(?(1)\1)/is';
+		if (preg_match($re, $link_str, $matches)
 		) {
 			// two possible ways to get existing attributes
-			$attr_value = $matches[1];
+			$attr_value = $matches[2];
 
 			$quote = false !== stripos($html, $attr_name . "='") ? "'" : '"';
 		}
@@ -449,13 +355,18 @@ class auto_thickbox {
 		if ($attr_value)
 		{
 			//replace current attribute
-			return str_ireplace("$attr_name=" . $quote . "$attr_value" . $quote,
+			$html = str_ireplace("$attr_name=" . $quote . "$attr_value" . $quote,
 				$attr_name . '="' . esc_attr($new_attr_value) . '"', $html);
 		}
 		else {
 			// attribute does not currently exist, add it
-			return str_ireplace('>', " $attr_name=\"" . esc_attr($new_attr_value) . '">', $html);
+			$pos = strpos( $html, '>' );
+			if ($pos !== false) {
+				$html = substr_replace( $html, " $attr_name=\"" . esc_attr($new_attr_value) . '">', $pos, strlen('>') );
+			}
 		}
+
+		return $html;
 	} # update_attribute()
 
 
@@ -467,6 +378,14 @@ class auto_thickbox {
 	 */
 
 	function filter_anchor($anchor) {
+		# disable in feeds
+		if ( is_feed() )
+			return null;
+
+		// if we don't have a href or find a ? only obviously this some illformed or temp link
+		if ( empty( $anchor['attr']['href'] ) || (substr($anchor['attr']['href'], 0, 1) == '?' ) )
+			return null;
+
 		$updated = false;
 		if ( preg_match("/\.(?:jpe?g|gif|png|bmp)\b/i", $anchor['attr']['href']) ) {
 			$anchor = $this->image($anchor);
@@ -539,7 +458,28 @@ class auto_thickbox {
 		return $anchor;
 	} # iframe()
 	
-	
+	function parseAttributes($text) {
+	    $attributes = array();
+	    $pattern = '#(?(DEFINE)
+	            (?<name>[a-zA-Z][a-zA-Z0-9-:]*)
+	            (?<value_double>"[^"]+")
+	            (?<value_single>\'[^\']+\')
+	            (?<value_none>[^\s>]+)
+	            (?<value>((?&value_double)|(?&value_single)|(?&value_none)))
+	        )
+	        (?<n>(?&name))(=(?<v>(?&value)))?#xs';
+
+	    if (preg_match_all($pattern, $text, $matches, PREG_SET_ORDER)) {
+	        foreach ($matches as $match) {
+	            $attributes[$match['n']] = isset($match['v'])
+	                ? trim($match['v'], '\'"')
+	                : null;
+	        }
+	    }
+
+	    return $attributes;
+	}
+
 	/**
 	 * scripts()
 	 *
@@ -549,8 +489,8 @@ class auto_thickbox {
 	function scripts() {
 		// use our forked version of thickbox
 		wp_deregister_script('thickbox');
-		$thickbox_js = ( WP_DEBUG ? 'auto-thickbox.min.js' : 'auto-thickbox.js' );
-		wp_register_script('thickbox', plugins_url( '/js/' . $thickbox_js, __FILE__), array('jquery'), '20141026', true);
+		$thickbox_js = ( ! WP_DEBUG ? 'auto-thickbox.min.js' : 'auto-thickbox.js' );
+		wp_register_script('thickbox', plugins_url( '/js/' . $thickbox_js, __FILE__), array('jquery'), '20150514', true);
 		wp_enqueue_script('thickbox');
 	} # scripts()
 

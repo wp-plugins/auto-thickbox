@@ -1,9 +1,9 @@
 === Auto Thickbox ===
 Contributors: Denis-de-Bernardy, Mike_Koepke
-Donate link: http://www.semiologic.com/partners/
+Donate link: https://www.semiologic.com/donate/
 Tags: lightbox, thickbox, shadowbox, gallery, semiologic, images
 Requires at least: 3.1
-Tested up to: 4.0
+Tested up to: 4.3
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -53,9 +53,7 @@ Thickbox supports the following keys:
 
 = Help Me! =
 
-The [Semiologic forum](http://forum.semiologic.com) is the best place to report issues. Please note, however, that while community members and I do our best to answer all queries, we're assisting you on a voluntary basis.
-
-If you require more dedicated assistance, consider using [Semiologic Pro](http://www.semiologic.com).
+The [Plugin's Forum](https://wordpress.org/support/plugin/auto-thickbox) is the best place to report issues.
 
 
 == Installation ==
@@ -65,6 +63,14 @@ If you require more dedicated assistance, consider using [Semiologic Pro](http:/
 
 
 == Change Log ==
+
+= 3.5 =
+
+- Incorporate WP core fix #30376 - https://core.trac.wordpress.org/changeset/30376
+- Further link parsing changes for performance sake.  3.4 version had a few issues on long content
+- WP 4.3 compat
+- Tested against PHP 5.6
+
 
 = 3.4.2 =
 
